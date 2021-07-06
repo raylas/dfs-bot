@@ -2,7 +2,7 @@
 set -e
 
 # Check if necessary environment variables are set
-if [[ -z UISP_DOMAIN || -z $UISP_API_TOKEN || -f "/run/secrets/uisp_api_token" || -z $DEVICE_ID || -z $TARGET_FREQ ]]; then
+if [[ -z $UISP_DOMAIN || -z $UISP_API_TOKEN || -f "/run/secrets/uisp_api_token" || -z $DEVICE_ID || -z $TARGET_FREQ ]]; then
   echo "One or more variables are undefined."
   echo "The following must be set:"
   echo "- UISP_DOMAIN"
