@@ -1,17 +1,12 @@
 version: '3.4'
 
-secrets:
-  dfs_bot_uisp_api_token:
-    external: true
-
 services:
   dfs-bot:
-    image: raylas/dfs-bot:0.1.0
-    secrets:
-    - source: dfs_bot_uisp_api_token
-      target: /run/secrets/uisp_api_token
+    build:
+      context: .
     environment:
       UISP_DOMAIN: https://unms.example.com
+      # UISP_API_TOKEN: 3cbaab95-7b82-4ebb-77gf-f326688fbb85
       DEVICE_ID: 1f00f69d-190d-4a7b-82b4-bd0423938d88
       TARGET_FREQ: 5485
     volumes:

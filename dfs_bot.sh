@@ -2,14 +2,23 @@
 set -e
 
 # Check if necessary environment variables are set
-if [[ -z $UISP_DOMAIN || -z $UISP_API_TOKEN || -f "/run/secrets/uisp_api_token" || -z $DEVICE_ID || -z $TARGET_FREQ ]]; then
+if [[ -z $UISP_DOMAIN || -z $DEVICE_ID || -z $TARGET_FREQ ]]; then
   echo "One or more variables are undefined."
   echo "The following must be set:"
   echo "- UISP_DOMAIN"
-  echo "- UISP_API_TOKEN (will also check /run/secrets/uisp_api_token)"
   echo "- DEVICE_ID"
   echo "- TARGET_FREQ"
   exit 1
+fi
+
+# Check if UISP API token exists
+if [[ -z $UISP_API_TOKEN && ! -f "/run/secrets/uisp_api_token" ]]; then
+  echo "The UISP API token cannot be found."
+  echo "The following must be set:"
+  echo "- UISP_API_TOKEN (will also check /run/secrets/uisp_api_token)"
+  exit 1
+elif [[ -z $UISP_API_TOKEN ]]; then
+  export UISP_API_TOKEN=$(cat /run/secrets/uisp_api_token)
 fi
 
 # Define API routes
